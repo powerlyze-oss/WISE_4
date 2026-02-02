@@ -388,6 +388,13 @@ function renderGanttChart() {
 
     const minDate = new Date(Math.min(...dates));
     const maxDate = new Date(Math.max(...dates));
+    const sortedTasks = [...tasks]
+        .filter(task => task[3] && task[4])
+        .sort((a, b) => {
+            const dateA = new Date(a[3]);
+            const dateB = new Date(b[3]);
+            return dateA - dateB; // Ascending order
+        });
     
     // Generate months
     const months = generateMonths(minDate, maxDate);
@@ -416,7 +423,7 @@ function renderGanttChart() {
     html += '</div>';
 
     // Rows
-    tasks.forEach(task => {
+    sortedTasks.forEach(task => {
         if (!task[3] || !task[4]) return;
 
         const status = task[2] || 'Not started';
