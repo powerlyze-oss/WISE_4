@@ -384,23 +384,45 @@ document.getElementById('taskForm').addEventListener('submit', async (e) => {
 });
 
 async function saveTasksToSheet() {
+//    if (!CONFIG.USE_APPS_SCRIPT || !CONFIG.APPS_SCRIPT_URL || CONFIG.APPS_SCRIPT_URL === 'YOUR_APPS_SCRIPT_URL_HERE') {
+//        return;
+//    }
+//
+//    try {
+//        await fetch(CONFIG.APPS_SCRIPT_URL, {
+//            method: 'POST',
+//            body: JSON.stringify({
+//                action: 'saveTasks',
+//                tasks: tasks
+//            })
+//        });
+//        
+//        await new Promise(resolve => setTimeout(resolve, 1500));
+//        await loadTasks();
+//    } catch (error) {
+//        console.error('Error:', error);
+//    }
+//}
+//
+//async function saveResourcesToSheet() {
     if (!CONFIG.USE_APPS_SCRIPT || !CONFIG.APPS_SCRIPT_URL || CONFIG.APPS_SCRIPT_URL === 'YOUR_APPS_SCRIPT_URL_HERE') {
+        console.log('Apps Script not configured.');
         return;
     }
 
     try {
-        await fetch(CONFIG.APPS_SCRIPT_URL, {
-            method: 'POST',
-            body: JSON.stringify({
-                action: 'saveTasks',
-                tasks: tasks
-            })
-        });
+        const params = encodeURIComponent(JSON.stringify(tasks));
+        const url = `${CONFIG.APPS_SCRIPT_URL}?action=saveTasks&data=${params}`;
         
-        await new Promise(resolve => setTimeout(resolve, 1500));
+        await fetch(url);
+        
+        await new Promise(resolve => setTimeout(resolve, 1000));
         await loadTasks();
+        
+        console.log('Tasks saved');
     } catch (error) {
         console.error('Error:', error);
+        throw error;
     }
 }
 
