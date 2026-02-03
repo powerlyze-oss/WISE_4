@@ -2,7 +2,7 @@
 const CONFIG = {
     SHEET_ID: '1nRPxFznNxtHneYaD31-mXr1H3DTfgifI6iciYwq64P4',
     API_KEY: 'AIzaSyDcu_Y0FGiCvyfpV_XjjBmoxLVAVPKYNyA', // For reading data
-    APPS_SCRIPT_URL: 'YOUR_APPS_SCRIPT_URL_HERE', // Replace with your deployed Apps Script URL
+    APPS_SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbx4Oxhn2BtZa7HmKDbrn-TMp5F8JPsXyRM4b2XoY_4rLcwZEykfgHLrrAIGEu4vi1PgKw/exec', // Replace with your deployed Apps Script URL
     RESOURCES_SHEET: 'Project_resources',
     TASKS_SHEET: 'Project_tasks',
     RESOURCES_RANGE: 'Project_resources!A2:B',
