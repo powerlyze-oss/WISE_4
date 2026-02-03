@@ -231,18 +231,17 @@ async function saveResourcesToSheet() {
     }
 
     try {
-        await fetch(CONFIG.APPS_SCRIPT_URL, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ action: 'saveResources', resources: resources })
-        });
+        const params = encodeURIComponent(JSON.stringify(resources));
+        const url = `${CONFIG.APPS_SCRIPT_URL}?action=saveResources&data=${params}`;
+        
+        await fetch(url);
         
         await new Promise(resolve => setTimeout(resolve, 1000));
         await loadResources();
         
-        console.log('Resources saved to Google Sheets');
+        console.log('Resources saved');
     } catch (error) {
-        console.error('Error saving:', error);
+        console.error('Error:', error);
         throw error;
     }
 }
@@ -391,18 +390,18 @@ async function saveTasksToSheet() {
     }
 
     try {
-        await fetch(CONFIG.APPS_SCRIPT_URL, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ action: 'saveTasks', tasks: tasks })
-        });
+        // ใช้ GET แทน POST เพื่อหลีก CORS
+        const params = encodeURIComponent(JSON.stringify(tasks));
+        const url = `${CONFIG.APPS_SCRIPT_URL}?action=saveTasks&data=${params}`;
+        
+        await fetch(url);
         
         await new Promise(resolve => setTimeout(resolve, 1000));
         await loadTasks();
         
-        console.log('Tasks saved to Google Sheets');
+        console.log('Tasks saved');
     } catch (error) {
-        console.error('Error saving:', error);
+        console.error('Error:', error);
         throw error;
     }
 }
