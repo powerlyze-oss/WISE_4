@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WISE_4 Project Management</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🚀 WISE_4 Project Management</h1>
+            <div class="tabs">
+                <button class="tab-btn active" data-tab="resources">👥 Resources</button>
+                <button class="tab-btn" data-tab="tasks">📋 Tasks</button>
+                <button class="tab-btn" data-tab="gantt">📊 Gantt Chart</button>
+            </div>
+        </header>
+
+        <!-- Resources Tab -->
+        <div id="resources" class="tab-content active">
+            <div class="section-header">
+                <h2>Project Resources</h2>
+                <button class="btn btn-primary" onclick="showResourceModal()">+ Add Resource</button>
+            </div>
+            <div class="table-responsive">
+                <table id="resourcesTable">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Role</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="resourcesBody">
+                        <!-- Data will be loaded here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Tasks Tab -->
+        <div id="tasks" class="tab-content">
+            <div class="section-header">
+                <h2>Project Tasks</h2>
+                <button class="btn btn-primary" onclick="showTaskModal()">+ Add Task</button>
+            </div>
+            <div class="table-responsive">
+                <table id="tasksTable">
+                    <thead>
+                        <tr>
+                            <th>Tasks</th>
+                            <th>Owner</th>
+                            <th>Status</th>
+                            <th>Start Date</th>
+                            <th>End Date</th>
+                            <th>Milestone</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tasksBody">
+                        <!-- Data will be loaded here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Gantt Chart Tab -->
+        <div id="gantt" class="tab-content">
+            <div class="section-header">
+                <h2>Project Gantt Chart</h2>
+            </div>
+            
+            <!-- Date Range Filter -->
+            <div class="gantt-filters">
+                <div class="filter-group">
+                    <label for="ganttStartDate">From:</label>
+                    <input type="date" id="ganttStartDate" onchange="renderGanttChart()">
+                </div>
+                <div class="filter-group">
+                    <label for="ganttEndDate">To:</label>
+                    <input type="date" id="ganttEndDate" onchange="renderGanttChart()">
+                </div>
+                <div class="filter-group">
+                    <label for="ganttOwnerFilter">Owner:</label>
+                    <select id="ganttOwnerFilter" onchange="renderGanttChart()">
+                        <option value="">All Owners</option>
+                    </select>
+                </div>
+                <button class="btn btn-secondary" onclick="resetGanttFilters()">Reset All</button>
+            </div>
+            
+            <div class="gantt-container" id="ganttChart">
+                <!-- Gantt chart will be rendered here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Resource Modal -->
+    <div id="resourceModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeResourceModal()">&times;</span>
+            <h2 id="resourceModalTitle">Add Resource</h2>
+            <form id="resourceForm">
+                <input type="hidden" id="resourceRowIndex">
+                <div class="form-group">
+                    <label for="resourceName">Name:</label>
+                    <input type="text" id="resourceName" required>
+                </div>
+                <div class="form-group">
+                    <label for="resourceRole">Role:</label>
+                    <input type="text" id="resourceRole" required>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeResourceModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Task Modal -->
+    <div id="taskModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeTaskModal()">&times;</span>
+            <h2 id="taskModalTitle">Add Task</h2>
+            <form id="taskForm">
+                <input type="hidden" id="taskRowIndex">
+                <div class="form-group">
+                    <label for="taskName">Task:</label>
+                    <input type="text" id="taskName" required>
+                </div>
+                <div class="form-group">
+                    <label for="taskOwner">Owner:</label>
+                    <select id="taskOwner" required>
+                        <option value="">Select Owner</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="taskStatus">Status:</label>
+                    <select id="taskStatus" required>
+                        <option value="Not started">Not started</option>
+                        <option value="In progress">In progress</option>
+                        <option value="Completed">Completed</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="taskStartDate">Start Date:</label>
+                    <input type="date" id="taskStartDate" required>
+                </div>
+                <div class="form-group">
+                    <label for="taskEndDate">End Date:</label>
+                    <input type="date" id="taskEndDate" required>
+                </div>
+                <div class="form-group">
+                    <label for="taskMilestone">Milestone:</label>
+                    <input type="text" id="taskMilestone">
+                </div>
+                <div class="form-group">
+                    <label for="taskDeliverable">Deliverable:</label>
+                    <input type="file" id="taskDeliverable">
+                    <small id="currentDeliverable"></small>
+                </div>
+                <div class="form-group">
+                    <label for="taskNotes">Notes:</label>
+                    <textarea id="taskNotes" rows="3"></textarea>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeTaskModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="loading" class="loading">Loading...</div>
+
+    <script src="app.js"></script>
+</body>
+</html>
