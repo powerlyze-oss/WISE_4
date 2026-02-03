@@ -385,24 +385,22 @@ document.getElementById('taskForm').addEventListener('submit', async (e) => {
 
 async function saveTasksToSheet() {
     if (!CONFIG.USE_APPS_SCRIPT || !CONFIG.APPS_SCRIPT_URL || CONFIG.APPS_SCRIPT_URL === 'YOUR_APPS_SCRIPT_URL_HERE') {
-        console.log('Apps Script not configured.');
         return;
     }
 
     try {
-        // ใช้ GET แทน POST เพื่อหลีก CORS
-        const params = encodeURIComponent(JSON.stringify(tasks));
-        const url = `${CONFIG.APPS_SCRIPT_URL}?action=saveTasks&data=${params}`;
+        await fetch(CONFIG.APPS_SCRIPT_URL, {
+            method: 'POST',
+            body: JSON.stringify({
+                action: 'saveTasks',
+                tasks: tasks
+            })
+        });
         
-        await fetch(url);
-        
-        await new Promise(resolve => setTimeout(resolve, 1000));
+        await new Promise(resolve => setTimeout(resolve, 1500));
         await loadTasks();
-        
-        console.log('Tasks saved');
     } catch (error) {
         console.error('Error:', error);
-        throw error;
     }
 }
 
