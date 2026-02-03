@@ -384,27 +384,6 @@ document.getElementById('taskForm').addEventListener('submit', async (e) => {
 });
 
 async function saveTasksToSheet() {
-//    if (!CONFIG.USE_APPS_SCRIPT || !CONFIG.APPS_SCRIPT_URL || CONFIG.APPS_SCRIPT_URL === 'YOUR_APPS_SCRIPT_URL_HERE') {
-//        return;
-//    }
-//
-//    try {
-//        await fetch(CONFIG.APPS_SCRIPT_URL, {
-//            method: 'POST',
-//            body: JSON.stringify({
-//                action: 'saveTasks',
-//                tasks: tasks
-//            })
-//        });
-//        
-//        await new Promise(resolve => setTimeout(resolve, 1500));
-//        await loadTasks();
-//    } catch (error) {
-//        console.error('Error:', error);
-//    }
-//}
-//
-//async function saveResourcesToSheet() {
     if (!CONFIG.USE_APPS_SCRIPT || !CONFIG.APPS_SCRIPT_URL || CONFIG.APPS_SCRIPT_URL === 'YOUR_APPS_SCRIPT_URL_HERE') {
         console.log('Apps Script not configured.');
         return;
