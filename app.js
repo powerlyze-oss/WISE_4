@@ -226,26 +226,23 @@ document.getElementById('resourceForm').addEventListener('submit', async (e) => 
 
 async function saveResourcesToSheet() {
     if (!CONFIG.USE_APPS_SCRIPT || !CONFIG.APPS_SCRIPT_URL || CONFIG.APPS_SCRIPT_URL === 'YOUR_APPS_SCRIPT_URL_HERE') {
-        console.log('Apps Script not configured. Resources saved locally:', resources);
+        console.log('Apps Script not configured.');
         return;
     }
 
     try {
-        const response = await fetch(CONFIG.APPS_SCRIPT_URL, {
+        await fetch(CONFIG.APPS_SCRIPT_URL, {
             method: 'POST',
-            mode: 'no-cors',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                action: 'saveResources',
-                resources: resources
-            })
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ action: 'saveResources', resources: resources })
         });
+        
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        await loadResources();
         
         console.log('Resources saved to Google Sheets');
     } catch (error) {
-        console.error('Error saving to Google Sheets:', error);
+        console.error('Error saving:', error);
         throw error;
     }
 }
@@ -389,26 +386,23 @@ document.getElementById('taskForm').addEventListener('submit', async (e) => {
 
 async function saveTasksToSheet() {
     if (!CONFIG.USE_APPS_SCRIPT || !CONFIG.APPS_SCRIPT_URL || CONFIG.APPS_SCRIPT_URL === 'YOUR_APPS_SCRIPT_URL_HERE') {
-        console.log('Apps Script not configured. Tasks saved locally:', tasks);
+        console.log('Apps Script not configured.');
         return;
     }
 
     try {
-        const response = await fetch(CONFIG.APPS_SCRIPT_URL, {
+        await fetch(CONFIG.APPS_SCRIPT_URL, {
             method: 'POST',
-            mode: 'no-cors',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                action: 'saveTasks',
-                tasks: tasks
-            })
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ action: 'saveTasks', tasks: tasks })
         });
+        
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        await loadTasks();
         
         console.log('Tasks saved to Google Sheets');
     } catch (error) {
-        console.error('Error saving to Google Sheets:', error);
+        console.error('Error saving:', error);
         throw error;
     }
 }
